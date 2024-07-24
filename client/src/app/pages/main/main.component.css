@@ -1,0 +1,118 @@
+main {
+  width: 100vw;
+  height: 1780px;
+  background-color: #f3eeea;
+}
+
+.main-header {
+  border-bottom: 1px solid darkslateblue;
+  background-color: #776b5d;
+  color: #faf1e4;
+  width: 100vw;
+  z-index: 10;
+  user-select: none;
+}
+
+.main-header h1 {
+  margin-left: 10px;
+  font-size: 52px;
+}
+
+.main-header p {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.main-body {
+  position: relative;
+  top: 50px;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-description {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-description-list {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  text-align: center;
+  font-size: 22px;
+  user-select: none;
+}
+
+.main-description-list li {
+  cursor: default;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding-left: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.main-description-list li:hover {
+  background-color: #eac696;
+  margin-left: 4px;
+  margin-right: 48px;
+}
+
+.main-description-list li svg {
+  margin-left: 5px;
+}
+
+.main-description-list button {
+  cursor: default;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding-left: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.main-description-list button:hover {
+  background-color: #eac696;
+  margin-left: 4px;
+  margin-right: 48px;
+}
+
+.main-description-list button svg {
+  margin-left: 5px;
+}
+
+.main-description-content {
+  width: 65%;
+}
+
+.main-description-content p {
+  padding-bottom: 200px;
+}
+
+.main-description-content p button {
+  color: #faf1e4;
+  background-color: #765827;
+  border-radius: 8px;
+  border-width: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  user-select: none;
+}
+
+.main-description-content p button:hover {
+  background-color: #65451f;
+  color: #ede0cd;
+}
+
+.main-navigation {
+  text-align: center;
+  flex-direction: row;
+}

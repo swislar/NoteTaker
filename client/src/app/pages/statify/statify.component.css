@@ -1,0 +1,254 @@
+main {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f3eeea;
+}
+
+.main-body {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-navigation-list {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  text-align: center;
+  font-size: 22px;
+  user-select: none;
+}
+
+.spotify-login-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  cursor: pointer;
+  background-color: #7d6e83;
+  box-shadow: 1px 1px 3px slategray;
+  color: aliceblue;
+  padding-left: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 48px;
+  margin-top: 5px;
+}
+
+.spotify-login-button:hover {
+  background-color: #67576d;
+}
+
+.spotify-status-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  background-color: #7d6e83;
+  box-shadow: 1px 1px 3px slategray;
+  color: aliceblue;
+  padding-top: 1px;
+  padding-bottom: 8px;
+  margin-right: 10px;
+}
+
+.spotify-login-button p {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  font-size: 18px;
+}
+
+.spotify-status-button p {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  font-size: 18px;
+}
+
+.spotify-status-button img {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border-width: 2px;
+  border-color: darkkhaki;
+}
+
+.spotify-login-button app-spotify-icon {
+  background-color: #d0b8a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px #dfd3c3;
+}
+
+.main-navigation-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding-left: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.main-navigation-list li:hover {
+  background-color: #eac696;
+  margin-right: 9px;
+}
+
+.main-navigation-list li svg {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.main-navigation-list button {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding-left: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.main-navigation-list button:hover {
+  background-color: #eac696;
+  margin-right: 9px;
+}
+
+.main-navigation-list button svg {
+  margin-left: 5px;
+}
+
+app-spotify-icon {
+  margin-left: 5px;
+}
+
+.main-content {
+  width: 65%;
+  padding-top: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.filterButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchByButtons {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.topListenSearchByButton {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
+  border-radius: 12px;
+  background-color: #b0a695;
+  color: aliceblue;
+  box-shadow: 2px 2px 5px #ebe3d5;
+}
+
+.topListenSearchByButton:hover {
+  background-color: #a2957f;
+}
+
+.timeRangeButtons {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.timeRangeButton {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
+  border-radius: 12px;
+  background-color: #b0a695;
+  color: aliceblue;
+  box-shadow: 2px 2px 5px #ebe3d5;
+}
+
+.timeRangeButton:hover {
+  background-color: #a2957f;
+}
+
+.topListenCard {
+  background-color: #b7c4cfa9;
+  box-shadow: 1px 1px 1px #d7c0ae;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 3px;
+  padding-left: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.topListenCardContent {
+  display: flex;
+  flex-direction: row;
+}
+
+.musicName {
+  font-size: larger;
+}
+
+.musicArtistName {
+  font-size: medium;
+}
+
+.musicAlbumCover {
+  border-width: 1px;
+  border-color: #b0a695;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px slategray;
+  justify-items: left;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 20px;
+}
+
+.musicPopularity {
+  font-size: small;
+}
+
+.musicArtistFollowers {
+  font-size: small;
+}
+
+.musicGenre {
+  font-size: small;
+  display: flex;
+  flex-direction: row;
+}
+
+.musicDescription {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}

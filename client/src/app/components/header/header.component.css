@@ -1,0 +1,19 @@
+.main-header {
+  border-bottom: 1px solid darkslateblue;
+  background-color: #776b5d;
+  color: #faf1e4;
+  width: 100vw;
+  height: 70px;
+  z-index: 10;
+  user-select: none;
+}
+
+.main-header h1 {
+  margin-left: 10px;
+  font-size: 28px;
+}
+
+.main-header p {
+  margin-left: 10px;
+  font-size: 12px;
+}
