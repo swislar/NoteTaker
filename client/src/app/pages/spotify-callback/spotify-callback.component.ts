@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GlobalVarsService } from '../../services';
+import { GlobalVarsService, SpotifyService } from '../../services';
 import { Buffer } from 'buffer';
 import { HeaderComponent } from '../../components';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-spotify-callback',
@@ -26,7 +27,8 @@ export class SpotifyCallbackComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private globalVar: GlobalVarsService
+    private globalVar: GlobalVarsService,
+    private spotifyService: SpotifyService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +58,20 @@ export class SpotifyCallbackComponent implements OnInit {
   }
 
   getAccessToken() {
-    if (this.requestState !== this.state || !this.code || this.error) {
+    if (this.error) {
+      console.log(this.error);
+      let refresh_token;
+      if (typeof window !== 'undefined' && window.localStorage) {
+        refresh_token = localStorage.getItem('refresh_token');
+      }
+      if (refresh_token) {
+        this.spotifyService.refreshToken(refresh_token).subscribe((token) => {
+          localStorage.setItem('access_token', token.access_token);
+          localStorage.setItem('refresh_token', token.refresh_token);
+        });
+      }
+    }
+    if (this.requestState !== this.state || !this.code) {
       console.log('Authentication error occured!');
     } else {
       const headers = new HttpHeaders()
@@ -77,6 +92,20 @@ export class SpotifyCallbackComponent implements OnInit {
       console.log('Post url: ', this.tokenUrl, body.toString(), { headers });
       this.http
         .post<any>(this.tokenUrl, body.toString(), { headers })
+        .pipe(
+          catchError((error) => {
+            console.error(error);
+            console.log('try catching errors');
+            console.log(error);
+            let refresh_token;
+            if (typeof window !== 'undefined' && window.localStorage) {
+              refresh_token = localStorage.getItem('refresh_token');
+            }
+            if (refresh_token) {
+              return this.spotifyService.refreshToken(refresh_token);
+            } else return of(null);
+          })
+        )
         .subscribe((data) => {
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('refresh_token', data.refresh_token);
