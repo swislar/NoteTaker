@@ -38,6 +38,20 @@ export class SpotifyService {
     window.location.href = endPointUrl;
   }
 
+  refreshToken(token: string): Observable<any> {
+    const endPointUrl =
+      'https://accounts.spotify.com/api/token' +
+      new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: token,
+        client_id: this.clientId,
+      }).toString();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    return this.http.post<any>(endPointUrl, { headers });
+  }
+
   getDisplayName(): Observable<any> {
     const endPointUrl = 'https://api.spotify.com/v1/me';
     const headers = new HttpHeaders({
