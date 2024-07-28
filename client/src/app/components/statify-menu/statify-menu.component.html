@@ -1,0 +1,95 @@
+<main class="statify-menu">
+  <section>
+    <p-button
+      [style]="{
+        'background-color': '#b7c4cf',
+        position: 'absolute',
+        top: '80px'
+      }"
+      icon="pi pi-cog"
+      [rounded]="true"
+      [outlined]="true"
+      [raised]="true"
+      (click)="updateShowSliders()"
+    />
+    <section *ngIf="showSliders; else statusBar">
+      <div class="search-menu">
+        <app-slider
+          class="search-slider"
+          title="Acousticness"
+          [valueArray]="musicAcousticness"
+          [min]="0"
+          [max]="100"
+          (valueChange)="updateAcousticness($event)"
+        />
+        <app-slider
+          class="search-slider"
+          title="Energy"
+          [valueArray]="musicEnergy"
+          [min]="0"
+          [max]="100"
+          (valueChange)="updateEnergy($event)"
+        />
+        <app-slider
+          class="search-slider"
+          title="Instrumentals"
+          [valueArray]="musicInstrumentals"
+          [min]="0"
+          [max]="100"
+          (valueChange)="updateInstrumentals($event)"
+        />
+        <app-slider
+          class="search-slider"
+          title="Popularity"
+          [valueArray]="musicPopularity"
+          [min]="0"
+          [max]="100"
+          (valueChange)="updatePopularity($event)"
+        />
+        <app-slider
+          class="search-slider"
+          title="Tempo"
+          [valueArray]="musicTempo"
+          [min]="60"
+          [max]="150"
+          (valueChange)="updateTempo($event)"
+        />
+        <span class="musicSearchBox">
+          <p-button
+            label="search"
+            icon="pi pi-search"
+            iconPos="right"
+            class="musicSearchButton"
+            (click)="handleSearchButton()"
+          />
+        </span>
+      </div>
+    </section>
+    <ng-template #statusBar>
+      <section class="status-bar">
+        <div class="status-box">
+          <span class="music-status"
+            >Acousticness: {{ musicAcousticness[0] }} -
+            {{ musicAcousticness[1] }}</span
+          >
+          <span class="music-status"
+            >Energy: {{ musicEnergy[0] }} - {{ musicEnergy[1] }}</span
+          >
+          <span class="music-status">
+            Instrumentals: {{ musicInstrumentals[0] }} -
+            {{ musicInstrumentals[1] }}
+          </span>
+        </div>
+        <div class="status-box">
+          <span class="music-status"
+            >Popularity: {{ musicPopularity[0] }} -
+            {{ musicPopularity[1] }}</span
+          >
+          <span class="music-status"
+            >Tempo: {{ musicTempo[0] }} - {{ musicTempo[1] }}</span
+          >
+        </div>
+      </section>
+    </ng-template>
+  </section>
+</main>

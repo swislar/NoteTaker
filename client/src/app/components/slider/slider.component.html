@@ -1,0 +1,25 @@
+<main [ngClass]="['slider-main', class]">
+  <p class="sliderTitle">{{ title }}</p>
+  <section class="slider-group">
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="valueArray[0]"
+      class="sliderInput"
+    />
+    <p-slider
+      [(ngModel)]="valueArray"
+      [range]="true"
+      [min]="min"
+      [max]="max"
+      class="slider"
+      (ngModelChange)="onSliderChange($event)"
+    />
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="valueArray[1]"
+      class="sliderInput"
+    />
+  </section>
+</main>
