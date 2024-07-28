@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../components';
+import {
+  HeaderComponent,
+  SliderComponent,
+  StatifyMenuComponent,
+} from '../../components';
 import { SpotifyService } from '../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpotifyIconComponent } from '../../icons';
@@ -11,7 +15,7 @@ import {
   NgSwitchCase,
   NgSwitchDefault,
 } from '@angular/common';
-// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-statify',
@@ -19,14 +23,17 @@ import {
   imports: [
     HeaderComponent,
     SpotifyIconComponent,
+    StatifyMenuComponent,
     NgIf,
     NgFor,
     NgSwitch,
     NgSwitchCase,
     NgSwitchDefault,
+    SliderComponent,
+    ButtonModule,
   ],
   templateUrl: './statify.component.html',
-  styleUrls: ['./statify.component.css', './statify.component.scss'],
+  styleUrl: './statify.component.css',
   providers: [SpotifyService],
 })
 export class StatifyComponent {
@@ -37,18 +44,19 @@ export class StatifyComponent {
   userSpotifyDisplayName: string = '';
   userSpotifyProfilePicture: string = '';
   displayContent: string = '';
-  musicRecLimit: number = 20;
-  musicRecGenres: string[] = ['pop'];
-  musicRecArtists: string[] = [];
-  musicRecTracks: string[] = [];
-  musicRecAcoutsticness: number[] = [];
-  musicRecEnergy: number[] = [];
-  musicRecInstrumental: number[] = [];
-  musicRecPopularity: number[] = [];
-  musicRecTempo: number[] = [];
+  musicLimit: number = 20;
+  musicGenres: string[] = ['pop'];
+  musicArtists: string[] = [];
+  musicTracks: string[] = [];
+  musicAcousticness: number[] = [0, 100];
+  musicEnergy: number[] = [0, 100];
+  musicInstrumentals: number[] = [0, 100];
+  musicPopularity: number[] = [0, 100];
+  musicTempo: number[] = [90, 120];
 
   // TODO: ADD ANIMATIONS USING GSAP + PINNING
   // TODO: GET RECOMMENDATIONS PAGE
+  // TODO: IF ERROR ACCESS TOKEN EXPIRED -> REQUEST FOR A NEW TOKEN
 
   constructor(private spotifyService: SpotifyService, private router: Router) {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -142,54 +150,23 @@ export class StatifyComponent {
     this.getUserTopListens('artists', 'long_term');
   }
 
-  handleGetMusicRecommendation(props: {
-    limit?: number;
-    seed_genres?: string[];
-    seed_artists?: string[];
-    seed_tracks?: string[];
-    min_acousticness?: number;
-    max_acousticness?: number;
-    min_energy?: number;
-    max_energy?: number;
-    min_instrumentalness?: number;
-    max_instrumentalness?: number;
-    min_popularity?: number;
-    max_popularity?: number;
-    min_tempo?: number;
-    max_tempo?: number;
-  }) {
-    const {
-      limit = 20,
-      seed_genres = ['pop'],
-      seed_artists = [],
-      seed_tracks = [],
-      min_acousticness = 0.2,
-      max_acousticness = 0.8,
-      min_energy = 0.2,
-      max_energy = 0.8,
-      min_instrumentalness = 0.2,
-      max_instrumentalness = 0.8,
-      min_popularity = 0,
-      max_popularity = 100,
-      min_tempo = 60,
-      max_tempo = 140,
-    } = props;
+  handleGetMusicRecommendation(): void {
     this.spotifyService
       .getMusicRecommendation(
-        limit,
-        seed_genres,
-        seed_artists,
-        seed_tracks,
-        min_acousticness,
-        max_acousticness,
-        min_energy,
-        max_energy,
-        min_instrumentalness,
-        max_instrumentalness,
-        min_popularity,
-        max_popularity,
-        min_tempo,
-        max_tempo
+        this.musicLimit,
+        this.musicGenres,
+        this.musicArtists,
+        this.musicTracks,
+        this.musicAcousticness[0] / 100,
+        this.musicAcousticness[1] / 100,
+        this.musicEnergy[0] / 100,
+        this.musicEnergy[1] / 100,
+        this.musicInstrumentals[0] / 100,
+        this.musicInstrumentals[1] / 100,
+        this.musicPopularity[0],
+        this.musicPopularity[1],
+        this.musicTempo[0],
+        this.musicTempo[1]
       )
       .subscribe({
         next: (data) => {
@@ -206,28 +183,33 @@ export class StatifyComponent {
     this.displayContent = 'getMusicRecommendation';
   }
 
-  onLimitChange(event: Event) {
+  updateLimit(event: Event) {
     //
   }
 
-  onAcouticnessChange(event: Event) {
-    //
+  updateAcousticness(newValue: number[]) {
+    this.musicAcousticness = newValue;
+    console.log('Acousticness updated:', newValue);
+  }
+  updateEnergy(newValue: number[]) {
+    this.musicEnergy = newValue;
+    console.log('Energy updated:', newValue);
+  }
+  updateInstrumentals(newValue: number[]) {
+    this.musicInstrumentals = newValue;
+    console.log('Instrumentals updated:', newValue);
+  }
+  updatePopularity(newValue: number[]) {
+    this.musicPopularity = newValue;
+    console.log('Popularity updated:', newValue);
+  }
+  updateTempo(newValue: number[]) {
+    this.musicTempo = newValue;
+    console.log('Tempo updated:', newValue);
   }
 
-  onEnergyChange(event: Event) {
-    //
-  }
-
-  onInstrumentalsChange(event: Event) {
-    //
-  }
-
-  onPopularityChange(event: Event) {
-    //
-  }
-
-  onTempoChange() {
-    //
+  menuExpanded(showSliders: boolean) {
+    console.log('Sliders expanded: ', showSliders);
   }
 
   tracker(index: number, item: any): any {

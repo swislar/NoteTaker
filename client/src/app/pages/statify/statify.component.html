@@ -29,7 +29,7 @@
         </svg>
         <p>Top listens</p>
       </li>
-      <li (click)="handleGetMusicRecommendation({})">
+      <li (click)="handleGetMusicRecommendation()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -209,11 +209,46 @@
           Start to get music recommendations here!
         </p>
         <ng-template #displayMusicRecommendation>
-          <div class="">
-            <span>
-              <button></button>
-            </span>
-          </div>
+          <app-statify-menu
+            [musicAcousticness]="musicAcousticness"
+            [musicEnergy]="musicEnergy"
+            [musicInstrumentals]="musicInstrumentals"
+            [musicPopularity]="musicPopularity"
+            [musicTempo]="musicTempo"
+            [updateAcousticness]="updateAcousticness"
+            [updateEnergy]="updateEnergy"
+            [updateInstrumentals]="updateInstrumentals"
+            [updatePopularity]="updatePopularity"
+            [updateTempo]="updateTempo"
+            [handleGetMusicRecommendation]="handleGetMusicRecommendation"
+            (menuExpanded)="menuExpanded($event)"
+          />
+          <section>
+            <div
+              *ngFor="
+                let item of musicRecommendationTracks;
+                index as i;
+                trackBy: tracker
+              "
+              class="musicRecommendationCard"
+            >
+              <span class="topListenCardContent">
+                <img
+                  [src]="item.album.images[2].url"
+                  alt="albumCover"
+                  class="musicAlbumCover"
+                />
+                <span class="musicDescription">
+                  <p class="musicName">{{ item.name }}</p>
+                  <p class="musicAlbumName">
+                    {{ item.album.name }}
+                  </p>
+                  <p class="musicArtistName">{{ item.artists[0].name }}</p>
+                  <p class="musicPopularity">Rating: {{ item.popularity }}</p>
+                </span>
+              </span>
+            </div>
+          </section>
         </ng-template>
       </span>
       <span class="main-content" *ngSwitchDefault>
