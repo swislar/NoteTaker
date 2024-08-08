@@ -1,0 +1,36 @@
+<main>
+  <ul class="main-navigation-list">
+    <div class="main-navigation-list-top">
+      <div *ngIf="userLoggedIn; else notLoggedIn" class="spotify-status-button">
+        <p>Logged in as {{ userSpotifyDisplayName }}</p>
+        <img [src]="userSpotifyProfilePicture" alt="profile-picture" />
+      </div>
+      <ng-template #notLoggedIn>
+        <div (click)="spotifyLogin()" class="spotify-login-button">
+          <p>Log into Spotify</p>
+          <app-spotify-icon></app-spotify-icon>
+        </div>
+      </ng-template>
+      <p-panelMenu [model]="navbarItems" [multiple]="false"></p-panelMenu>
+    </div>
+    <div class="main-navigation-list-bottom">
+      <button class="back-button" (click)="navigateToMain()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 19.5 8.25 12l7.5-7.5"
+          />
+        </svg>
+        <p>Back</p>
+      </button>
+    </div>
+  </ul>
+</main>

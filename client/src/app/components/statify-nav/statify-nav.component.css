@@ -1,0 +1,199 @@
+main {
+  width: 248px;
+  /* background-color: #f3eeea; */
+  background-color: #dfd3c3;
+  box-shadow: 0px 0px 5px slategray;
+}
+
+.main-navigation-list {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  text-align: center;
+  font-size: 22px;
+  user-select: none;
+  justify-content: space-between;
+}
+
+.spotify-login-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  cursor: pointer;
+  background-color: #7d6e83;
+  box-shadow: 1px 1px 3px slategray;
+  color: aliceblue;
+  padding-left: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-left: 4px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.spotify-login-button:hover {
+  background-color: #67576d;
+}
+
+.spotify-status-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  background-color: #7d6e83;
+  box-shadow: 1px 1px 3px slategray;
+  color: aliceblue;
+  padding-top: 1px;
+  padding-bottom: 8px;
+}
+
+.spotify-login-button p {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  font-size: 18px;
+}
+
+.spotify-status-button p {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  font-size: 18px;
+}
+
+.spotify-status-button img {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border-width: 2px;
+  border-color: darkkhaki;
+}
+
+.spotify-login-button app-spotify-icon {
+  background-color: #d0b8a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px #dfd3c3;
+}
+
+.main-navigation-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  cursor: pointer;
+}
+
+.main-navigation-list li:hover {
+  background-color: #eac696;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.main-navigation-list li svg {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.main-navigation-list li p {
+  font-size: 18px;
+}
+
+.main-navigation-list button {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  cursor: pointer;
+  font-size: 17px;
+  margin-top: 12px;
+}
+
+.main-navigation-list button:hover {
+  background-color: #eac696b8;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 16px;
+  margin-bottom: 4px;
+  padding-right: 15px;
+  padding-left: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.main-navigation-list button svg {
+  margin-left: 5px;
+}
+
+app-spotify-icon {
+  margin-left: 5px;
+}
+
+::ng-deep .p-panelmenu-content {
+  /* Main panel menu */
+  /* background-color: #f3eeea; */
+  background-color: #dfd3c3;
+}
+
+::ng-deep .p-panelmenu-header-content {
+  /* Main list header */
+  /* background-color: #f3eeea; */
+  background-color: #dfd3c3;
+}
+
+::ng-deep .p-menuitem {
+  /* List item */
+  /* background-color: #f3eeea; */
+  background-color: #dfd3c3;
+  margin-left: 5px;
+}
+
+::ng-deep .p-menuitem-link {
+  /* List item hover */
+  /* background-color: #f3eeea; */
+  background-color: #dfd3c3;
+}
+
+::ng-deep .p-menuitem-link:active {
+  /* List item selected */
+  background-color: #e2d8cf;
+}
+
+::ng-deep .p-menuitem-icon {
+  /* List item icon */
+  color: slategray;
+}
+
+::ng-deep .p-toggleable-content {
+  /* List item content */
+  margin-left: 10px;
+}
