@@ -38,7 +38,7 @@ main {
 
 .main-description-list {
   display: flex;
-  width: 30%;
+  width: 248px;
   flex-direction: column;
   text-align: center;
   font-size: 22px;
