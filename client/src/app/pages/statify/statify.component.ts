@@ -1,13 +1,10 @@
-import { Component } from '@angular/core';
-import {
-  HeaderComponent,
-  SliderComponent,
-  StatifyMenuComponent,
-} from '../../components';
+import { Component, OnInit } from '@angular/core';
+import { HeaderComponent, StatifyNavComponent } from '../../components';
 import { SpotifyService } from '../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpotifyIconComponent } from '../../icons';
 import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import {
   NgIf,
   NgFor,
@@ -16,6 +13,12 @@ import {
   NgSwitchDefault,
 } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { FieldsetModule } from 'primeng/fieldset';
+import {
+  AutoCompleteCompleteEvent,
+  AutoCompleteModule,
+} from 'primeng/autocomplete';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-statify',
@@ -23,29 +26,34 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     HeaderComponent,
     SpotifyIconComponent,
-    StatifyMenuComponent,
+    StatifyNavComponent,
     NgIf,
     NgFor,
     NgSwitch,
     NgSwitchCase,
     NgSwitchDefault,
-    SliderComponent,
     ButtonModule,
+    FieldsetModule,
+    FormsModule,
+    AutoCompleteModule,
+    FloatLabelModule,
   ],
   templateUrl: './statify.component.html',
   styleUrl: './statify.component.css',
   providers: [SpotifyService],
 })
-export class StatifyComponent {
+export class StatifyComponent implements OnInit {
   topListenTracks: any;
   topListenArtists: any;
   musicRecommendationTracks: any;
   userLoggedIn: boolean = false;
   userSpotifyDisplayName: string = '';
   userSpotifyProfilePicture: string = '';
-  displayContent: string = '';
+  displayContent: 'streams' | 'recommendations' | null = null;
+  displayStreamType: 'artists' | 'tracks' = 'tracks';
+  displayStreamRange: 'short_term' | 'medium_term' | 'long_term' = 'short_term';
   musicLimit: number = 20;
-  musicGenres: string[] = ['pop'];
+  musicGenres: string[] = ['Pop'];
   musicArtists: string[] = [];
   musicTracks: string[] = [];
   musicAcousticness: number[] = [0, 100];
@@ -53,12 +61,18 @@ export class StatifyComponent {
   musicInstrumentals: number[] = [0, 100];
   musicPopularity: number[] = [0, 100];
   musicTempo: number[] = [90, 120];
+  musicGenreList: string[] = [];
+  filteredGenre: string[] = [];
+  selectedGenre: string = '';
+  fieldsetLegend: string = '';
 
   // TODO: ADD ANIMATIONS USING GSAP + PINNING
   // TODO: GET RECOMMENDATIONS PAGE
   // TODO: IF ERROR ACCESS TOKEN EXPIRED -> REQUEST FOR A NEW TOKEN
 
-  constructor(private spotifyService: SpotifyService, private router: Router) {
+  constructor(private spotifyService: SpotifyService, private router: Router) {}
+
+  ngOnInit(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       if (localStorage.getItem('spotifyLoggedIn') !== 'true') {
         localStorage.setItem('spotifyLoggedIn', 'false');
@@ -81,6 +95,7 @@ export class StatifyComponent {
     this.spotifyService.getDisplayName().subscribe((data: any) => {
       this.userSpotifyDisplayName = data.display_name;
       this.userSpotifyProfilePicture = data.images[0].url;
+      console.log('Profile picture url: ', data.images[0].url);
     });
   }
 
@@ -96,11 +111,11 @@ export class StatifyComponent {
         next: (data) => {
           if (type === 'tracks') {
             this.topListenTracks = data.items;
-            this.topListenArtists = undefined;
+            // this.topListenArtists = undefined;
           }
           if (type === 'artists') {
             this.topListenArtists = data.items;
-            this.topListenTracks = undefined;
+            // this.topListenTracks = undefined;
           }
           console.log(data.items);
         },
@@ -111,7 +126,12 @@ export class StatifyComponent {
           console.log('Request complete!');
         },
       });
-    this.displayContent = 'userTopListens';
+    this.displayContent = 'streams';
+    this.fieldsetLegend =
+      'Top streamed ' +
+      this.capitaliseFirst(type) +
+      ' of ' +
+      this.handleDataRangeDisplayStatus(range);
   }
 
   handleTopListensByArtist() {
@@ -151,6 +171,18 @@ export class StatifyComponent {
   }
 
   handleGetMusicRecommendation(): void {
+    // this.musicRecommendationTracks = undefined;
+    if (this.musicGenreList.length === 0) {
+      this.spotifyService.getMusicGenres().subscribe((data) => {
+        console.log(data);
+        data.genres.map((genre: string) => {
+          this.musicGenreList.push(this.capitaliseFirst(genre));
+        });
+      });
+    }
+    if (this.musicGenres.length === 0) {
+      this.musicGenres = ['Pop'];
+    }
     this.spotifyService
       .getMusicRecommendation(
         this.musicLimit,
@@ -180,42 +212,144 @@ export class StatifyComponent {
           console.log('Request complete!');
         },
       });
-    this.displayContent = 'getMusicRecommendation';
+    this.displayContent = 'recommendations';
+    this.fieldsetLegend = 'Recommendations';
   }
 
   updateLimit(event: Event) {
     //
   }
 
-  updateAcousticness(newValue: number[]) {
-    this.musicAcousticness = newValue;
-    console.log('Acousticness updated:', newValue);
+  updateAcousticness(level: 'low' | 'medium' | 'high') {
+    switch (level) {
+      case 'low':
+        this.musicAcousticness = [0, 33];
+        return;
+      case 'medium':
+        this.musicAcousticness = [34, 66];
+        return;
+      case 'high':
+        this.musicAcousticness = [67, 100];
+        return;
+      default:
+        return;
+    }
   }
-  updateEnergy(newValue: number[]) {
-    this.musicEnergy = newValue;
-    console.log('Energy updated:', newValue);
+  updateEnergy(level: 'low' | 'medium' | 'high') {
+    switch (level) {
+      case 'low':
+        this.musicEnergy = [0, 33];
+        return;
+      case 'medium':
+        this.musicEnergy = [34, 66];
+        return;
+      case 'high':
+        this.musicEnergy = [67, 100];
+        return;
+      default:
+        return;
+    }
   }
-  updateInstrumentals(newValue: number[]) {
-    this.musicInstrumentals = newValue;
-    console.log('Instrumentals updated:', newValue);
+  updateInstrumentals(level: 'low' | 'medium' | 'high') {
+    switch (level) {
+      case 'low':
+        this.musicInstrumentals = [0, 33];
+        return;
+      case 'medium':
+        this.musicInstrumentals = [34, 66];
+        return;
+      case 'high':
+        this.musicInstrumentals = [67, 100];
+        return;
+      default:
+        return;
+    }
   }
-  updatePopularity(newValue: number[]) {
-    this.musicPopularity = newValue;
-    console.log('Popularity updated:', newValue);
-  }
-  updateTempo(newValue: number[]) {
-    this.musicTempo = newValue;
-    console.log('Tempo updated:', newValue);
+  updatePopularity(level: 'low' | 'high') {
+    switch (level) {
+      case 'low':
+        this.musicPopularity = [0, 50];
+        return;
+      case 'high':
+        this.musicPopularity = [51, 100];
+        return;
+      default:
+        return;
+    }
   }
 
-  menuExpanded(showSliders: boolean) {
-    console.log('Sliders expanded: ', showSliders);
+  updateTempo(level: 'low' | 'medium' | 'high') {
+    switch (level) {
+      case 'low':
+        this.musicTempo = [0, 80];
+        return;
+      case 'medium':
+        this.musicTempo = [81, 119];
+        console.log(this.musicTempo);
+        return;
+      case 'high':
+        this.musicTempo = [120, 160];
+        return;
+      default:
+        return;
+    }
+  }
+
+  updateMusicGenreList(genreList: string[]) {
+    this.musicGenres = genreList;
+    console.log(genreList);
   }
 
   tracker(index: number, item: any): any {
     return item.id;
   }
+
   navigateToMain() {
     this.router.navigate(['/main']);
+  }
+
+  updateDisplayStreamClass(newClass: 'streams' | 'recommendations') {
+    this.displayContent = newClass;
+  }
+
+  updateDisplayStreamType(newType: 'artists' | 'tracks') {
+    this.displayStreamType = newType;
+  }
+
+  updateDisplayStreamRange(
+    newRange: 'short_term' | 'medium_term' | 'long_term'
+  ) {
+    this.displayStreamRange = newRange;
+  }
+
+  handleDataRangeDisplayStatus(
+    range: 'short_term' | 'medium_term' | 'long_term'
+  ) {
+    switch (range) {
+      case 'short_term':
+        return 'Last 3 months';
+      case 'medium_term':
+        return 'Last 6 months';
+      case 'long_term':
+        return 'Last year';
+    }
+  }
+
+  filterGenre(event: AutoCompleteCompleteEvent) {
+    let filteredResult: string[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.musicGenreList.length; i++) {
+      let genre = this.musicGenreList[i];
+      if (genre.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filteredResult.push(genre);
+      }
+    }
+    this.filteredGenre = filteredResult;
+  }
+
+  querySelectedGenre(event: any) {
+    this.musicGenres = [this.selectedGenre];
+    this.handleGetMusicRecommendation();
   }
 }

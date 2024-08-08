@@ -1,228 +1,126 @@
 <main>
   <app-header></app-header>
   <section class="main-body">
-    <ul class="main-navigation-list">
-      <div *ngIf="userLoggedIn; else notLoggedIn" class="spotify-status-button">
-        <p>Logged in as {{ userSpotifyDisplayName }}</p>
-        <img [src]="userSpotifyProfilePicture" alt="profile-picture" />
-      </div>
-      <ng-template #notLoggedIn>
-        <div (click)="spotifyLogin()" class="spotify-login-button">
-          <p>Log into Spotify</p>
-          <app-spotify-icon></app-spotify-icon>
-        </div>
-      </ng-template>
-      <li (click)="getUserTopListens('tracks', 'medium_term')">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"
-          />
-        </svg>
-        <p>Top listens</p>
-      </li>
-      <li (click)="handleGetMusicRecommendation()">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
-          />
-        </svg>
-        <p>Get recommendations</p>
-      </li>
-      <button class="back-button" (click)="navigateToMain()">
-        Back
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-          />
-        </svg>
-      </button>
-    </ul>
-
-    <section [ngSwitch]="displayContent">
-      <span class="main-content" *ngSwitchCase="'userTopListens'">
-        <p
+    <app-statify-nav
+      [userSpotifyDisplayName]="userSpotifyDisplayName"
+      [userSpotifyProfilePicture]="userSpotifyProfilePicture"
+      [userLoggedIn]="userLoggedIn"
+      [spotifyLogin]="spotifyLogin.bind(this)"
+      [getUserTopListens]="getUserTopListens.bind(this)"
+      [handleGetMusicRecommendation]="handleGetMusicRecommendation.bind(this)"
+      [navigateToMain]="navigateToMain.bind(this)"
+      [updateAcousticness]="updateAcousticness.bind(this)"
+      [updateEnergy]="updateEnergy.bind(this)"
+      [updateInstrumentals]="updateInstrumentals.bind(this)"
+      [updatePopularity]="updatePopularity.bind(this)"
+      [updateTempo]="updateTempo.bind(this)"
+      (viewSpotifyDataClass)="updateDisplayStreamClass($event)"
+      (viewSpotifyDataType)="updateDisplayStreamType($event)"
+      (viewSpotifyDataRange)="updateDisplayStreamRange($event)"
+    ></app-statify-nav>
+    <section [ngSwitch]="displayContent" class="main-content-section">
+      <span class="main-content" *ngSwitchCase="'streams'">
+        <span
           *ngIf="!topListenTracks && !topListenArtists; else displayTracksData"
+          class="main-content-status"
         >
-          <!-- Use ngSwitchDefault -->
-          Get started by exploring insights about your account!
-        </p>
+          <p>Type: {{ capitaliseFirst(displayStreamType) }}</p>
+          <p>Range: {{ handleDataRangeDisplayStatus(displayStreamRange) }}</p>
+        </span>
         <ng-template #displayTracksData>
-          <div
-            *ngIf="topListenTracks; else displayArtistsData"
-            class="filterButtons"
-          >
-            <span class="searchByButtons">
-              <button
-                class="topListenSearchByButton"
-                (click)="handleTopListensByTrack()"
+          <ng-container *ngIf="topListenTracks; else displayArtistsData">
+            <p-fieldset [legend]="fieldsetLegend">
+              <div
+                *ngFor="
+                  let item of topListenTracks;
+                  index as i;
+                  trackBy: tracker
+                "
+                class="topListenCard"
               >
-                By Track
-              </button>
-              <button
-                class="topListenSearchByButton"
-                (click)="handleTopListensByArtist()"
-              >
-                By Artist
-              </button>
-            </span>
-            <span class="timeRangeButtons">
-              <button
-                class="timeRangeButton"
-                (click)="handleTracksLast3Months()"
-              >
-                Last 3 months
-              </button>
-              <button
-                class="timeRangeButton"
-                (click)="handleTracksLast6Months()"
-              >
-                Last 6 months
-              </button>
-              <button
-                class="timeRangeButton"
-                (click)="handleTracksLast12Months()"
-              >
-                Last year
-              </button>
-            </span>
-          </div>
-          <section
-            *ngFor="let item of topListenTracks; index as i; trackBy: tracker"
-            class="topListenCard"
-          >
-            <span class="topListenCardContent">
-              <img
-                [src]="item.album.images[2].url"
-                alt="albumCover"
-                class="musicAlbumCover"
-              />
-              <span class="musicDescription">
-                <p class="musicName">{{ i + 1 }}. {{ item.name }}</p>
-                <p class="musicArtistName">
-                  {{ item.album.artists[0].name }} // {{ item.album.name }}
-                </p>
-                <p class="musicPopularity">Rating: {{ item.popularity }}</p>
-              </span>
-            </span>
-          </section>
+                <span class="topListenCardContent">
+                  <img
+                    [src]="item.album.images[2].url"
+                    alt="albumCover"
+                    class="imageCover"
+                  />
+                  <span class="musicDescription">
+                    <p class="musicName">{{ i + 1 }}. {{ item.name }}</p>
+                    <p class="musicArtistName">
+                      {{ item.album.artists[0].name }} // {{ item.album.name }}
+                    </p>
+                    <p class="musicPopularity">Rating: {{ item.popularity }}</p>
+                  </span>
+                </span>
+              </div>
+            </p-fieldset>
+          </ng-container>
         </ng-template>
         <ng-template #displayArtistsData>
-          <div *ngIf="topListenArtists" class="filterButtons">
-            <span class="searchByButtons">
-              <button
-                class="topListenSearchByButton"
-                (click)="handleTopListensByTrack()"
+          <ng-container *ngIf="topListenArtists; else error">
+            <p-fieldset [legend]="fieldsetLegend">
+              <section
+                *ngFor="
+                  let item of topListenArtists;
+                  index as i;
+                  trackBy: tracker
+                "
+                class="topListenCard"
               >
-                By Track
-              </button>
-              <button
-                class="topListenSearchByButton"
-                (click)="handleTopListensByArtist()"
-              >
-                By Artist
-              </button>
-            </span>
-            <span class="timeRangeButtons">
-              <button
-                class="timeRangeButton"
-                (click)="handleArtistsLast3Months()"
-              >
-                Last 3 months
-              </button>
-              <button
-                class="timeRangeButton"
-                (click)="handleArtistsLast6Months()"
-              >
-                Last 6 months
-              </button>
-              <button
-                class="timeRangeButton"
-                (click)="handleArtistsLast12Months()"
-              >
-                Last year
-              </button>
-            </span>
-          </div>
-          <section
-            *ngFor="let item of topListenArtists; index as i; trackBy: tracker"
-            class="topListenCard"
-          >
-            <span class="topListenCardContent">
-              <img
-                [src]="item.images[2].url"
-                alt="albumCover"
-                class="musicAlbumCover"
-              />
-              <span class="musicDescription">
-                <p class="musicName">{{ i + 1 }}. {{ item.name }}</p>
-                <p class="musicArtistFollowers">
-                  Followers: {{ item.followers.total.toLocaleString() }}
-                </p>
-                <span class="musicGenre"
-                  >Genres: &nbsp;
-                  <p
-                    *ngFor="
-                      let genre of item.genres;
-                      let last = last;
-                      trackBy: tracker
-                    "
-                  >
-                    {{ capitaliseFirst(genre) }}
-                    <ng-container *ngIf="!last">/&nbsp;</ng-container>
-                  </p></span
-                >
-                <p class="musicPopularity">Rating: {{ item.popularity }}</p>
-              </span>
-            </span>
-          </section>
+                <span class="topListenCardContent">
+                  <img
+                    [src]="item.images[2].url"
+                    alt="albumCover"
+                    class="imageCover"
+                  />
+                  <span class="musicDescription">
+                    <p class="musicName">{{ i + 1 }}. {{ item.name }}</p>
+                    <p class="musicArtistFollowers">
+                      Followers: {{ item.followers.total.toLocaleString() }}
+                    </p>
+                    <span class="musicGenre"
+                      >Genres: &nbsp;
+                      <p
+                        *ngFor="
+                          let genre of item.genres;
+                          let last = last;
+                          trackBy: tracker
+                        "
+                      >
+                        {{ capitaliseFirst(genre) }}
+                        <ng-container *ngIf="!last">/&nbsp;</ng-container>
+                      </p></span
+                    >
+                    <p class="musicPopularity">Rating: {{ item.popularity }}</p>
+                  </span>
+                </span>
+              </section>
+            </p-fieldset>
+          </ng-container>
+        </ng-template>
+        <ng-template #error>
+          <p>An error occured displaying data.</p>
         </ng-template>
       </span>
-      <span class="main-content" *ngSwitchCase="'getMusicRecommendation'">
-        <p *ngIf="!musicRecommendationTracks; else displayMusicRecommendation">
-          Start to get music recommendations here!
+      <span class="main-content" *ngSwitchCase="'recommendations'">
+        <p
+          *ngIf="!musicRecommendationTracks; else displayMusicRecommendation"
+          class="main-content-status"
+        >
+          Filter for the type of music you want to get recommended here!
         </p>
         <ng-template #displayMusicRecommendation>
-          <app-statify-menu
-            [musicAcousticness]="musicAcousticness"
-            [musicEnergy]="musicEnergy"
-            [musicInstrumentals]="musicInstrumentals"
-            [musicPopularity]="musicPopularity"
-            [musicTempo]="musicTempo"
-            [updateAcousticness]="updateAcousticness"
-            [updateEnergy]="updateEnergy"
-            [updateInstrumentals]="updateInstrumentals"
-            [updatePopularity]="updatePopularity"
-            [updateTempo]="updateTempo"
-            [handleGetMusicRecommendation]="handleGetMusicRecommendation"
-            (menuExpanded)="menuExpanded($event)"
-          />
+          <p-floatLabel>
+            <p-autoComplete
+              [(ngModel)]="selectedGenre"
+              [dropdown]="true"
+              [suggestions]="filteredGenre"
+              (completeMethod)="filterGenre($event)"
+              inputId="float-genre-label"
+              (onSelect)="querySelectedGenre($event)"
+            />
+            <label for="float-genre-label">Genre</label>
+          </p-floatLabel>
           <section>
             <div
               *ngFor="
@@ -236,7 +134,7 @@
                 <img
                   [src]="item.album.images[2].url"
                   alt="albumCover"
-                  class="musicAlbumCover"
+                  class="imageCover"
                 />
                 <span class="musicDescription">
                   <p class="musicName">{{ item.name }}</p>
@@ -252,7 +150,9 @@
         </ng-template>
       </span>
       <span class="main-content" *ngSwitchDefault>
-        <p>Get started by exploring insights about your account!</p>
+        <p class="main-content-status">
+          Get started by selecting the type of streaming data you want to view!
+        </p>
       </span>
     </section>
   </section>
