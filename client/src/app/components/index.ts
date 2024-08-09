@@ -4,3 +4,4 @@ export { NoteComponent } from './note/note.component';
 export { SpotifyProfileComponent } from './spotify-profile/spotify-profile.component';
 export { HeaderComponent } from './header/header.component';
 export { StatifyNavComponent } from './statify-nav/statify-nav.component';
+export { StatifyGraphComponent } from './statify-graph/statify-graph.component';
