@@ -122,6 +122,7 @@ main {
   background-color: #d0b8a8c0;
   border-width: 3px;
   border-color: #c5705d;
+  margin-bottom: 32px;
 }
 
 ::ng-deep .p-fieldset-legend {

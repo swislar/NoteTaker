@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent, StatifyNavComponent } from '../../components';
+import {
+  HeaderComponent,
+  StatifyNavComponent,
+  StatifyGraphComponent,
+} from '../../components';
 import { SpotifyService } from '../../services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpotifyIconComponent } from '../../icons';
@@ -27,6 +31,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     HeaderComponent,
     SpotifyIconComponent,
     StatifyNavComponent,
+    StatifyGraphComponent,
     NgIf,
     NgFor,
     NgSwitch,
@@ -45,6 +50,11 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 export class StatifyComponent implements OnInit {
   topListenTracks: any;
   topListenArtists: any;
+  musicStreamedReleaseDate: string[] = [];
+  musicStreamedPopularityScore: number[] = [];
+  musicStreamedDurationMs: number[] = [];
+  musicStreamedName: string[] = [];
+  artistFollowerCount: number[] = [];
   musicRecommendationTracks: any;
   userLoggedIn: boolean = false;
   userSpotifyDisplayName: string = '';
@@ -111,11 +121,32 @@ export class StatifyComponent implements OnInit {
         next: (data) => {
           if (type === 'tracks') {
             this.topListenTracks = data.items;
-            // this.topListenArtists = undefined;
+            this.musicStreamedReleaseDate = data.items.map((music: any) => {
+              return music.album.release_date;
+            });
+            this.musicStreamedPopularityScore = data.items.map((music: any) => {
+              return music.popularity;
+            });
+            this.musicStreamedDurationMs = data.items.map((music: any) => {
+              return music.duration_ms;
+            });
+            this.musicStreamedName = data.items.map((music: any) => {
+              return music.name;
+            });
+            this.topListenArtists = undefined;
           }
           if (type === 'artists') {
             this.topListenArtists = data.items;
-            // this.topListenTracks = undefined;
+            this.musicStreamedName = data.items.map((music: any) => {
+              return music.name;
+            });
+            this.musicStreamedPopularityScore = data.items.map((music: any) => {
+              return music.popularity;
+            });
+            this.artistFollowerCount = data.items.map((music: any) => {
+              return music.followers.total;
+            });
+            this.topListenTracks = undefined;
           }
           console.log(data.items);
         },
@@ -351,5 +382,11 @@ export class StatifyComponent implements OnInit {
   querySelectedGenre(event: any) {
     this.musicGenres = [this.selectedGenre];
     this.handleGetMusicRecommendation();
+  }
+
+  identifyStreamingType(): 'tracks' | 'artists' {
+    if (this.topListenArtists) {
+      return 'artists';
+    } else return 'tracks';
   }
 }

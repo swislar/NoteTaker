@@ -29,6 +29,14 @@
         </span>
         <ng-template #displayTracksData>
           <ng-container *ngIf="topListenTracks; else displayArtistsData">
+            <app-statify-graph
+              [musicReleaseDate]="musicStreamedReleaseDate"
+              [musicPopularityScore]="musicStreamedPopularityScore"
+              [musicDurationMs]="musicStreamedDurationMs"
+              [musicStreamedName]="musicStreamedName"
+              [artistFollowerCount]="artistFollowerCount"
+              [streamType]="identifyStreamingType()"
+            ></app-statify-graph>
             <p-fieldset [legend]="fieldsetLegend">
               <div
                 *ngFor="
@@ -47,7 +55,8 @@
                   <span class="musicDescription">
                     <p class="musicName">{{ i + 1 }}. {{ item.name }}</p>
                     <p class="musicArtistName">
-                      {{ item.album.artists[0].name }} // {{ item.album.name }}
+                      {{ item.album.artists[0].name }} //
+                      {{ item.album.name }}
                     </p>
                     <p class="musicPopularity">Rating: {{ item.popularity }}</p>
                   </span>
@@ -58,6 +67,14 @@
         </ng-template>
         <ng-template #displayArtistsData>
           <ng-container *ngIf="topListenArtists; else error">
+            <app-statify-graph
+              [musicReleaseDate]="musicStreamedReleaseDate"
+              [musicPopularityScore]="musicStreamedPopularityScore"
+              [musicDurationMs]="musicStreamedDurationMs"
+              [musicStreamedName]="musicStreamedName"
+              [artistFollowerCount]="artistFollowerCount"
+              [streamType]="identifyStreamingType()"
+            ></app-statify-graph>
             <p-fieldset [legend]="fieldsetLegend">
               <section
                 *ngFor="
@@ -121,7 +138,12 @@
             />
             <label for="float-genre-label">Genre</label>
           </p-floatLabel>
-          <section>
+          <section
+            *ngIf="
+              musicRecommendationTracks.length !== 0;
+              else noRecommendations
+            "
+          >
             <div
               *ngFor="
                 let item of musicRecommendationTracks;
@@ -147,6 +169,9 @@
               </span>
             </div>
           </section>
+          <ng-template #noRecommendations>
+            <p>Sorry! We have no recommendations under this category :/</p>
+          </ng-template>
         </ng-template>
       </span>
       <span class="main-content" *ngSwitchDefault>
