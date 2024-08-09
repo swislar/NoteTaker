@@ -1,0 +1,11 @@
+<main>
+  <p-fieldset [toggleable]="true">
+    <ng-template pTemplate="header">
+      <div>
+        <i class="pi pi-chart-bar"></i>
+        <span class="font-bold">Visualisation</span>
+      </div>
+    </ng-template>
+    <p-chart type="bar" [data]="barChartData" [options]="barChartOptions" />
+  </p-fieldset>
+</main>

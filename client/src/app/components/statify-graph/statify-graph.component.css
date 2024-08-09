@@ -1,0 +1,18 @@
+main {
+  margin-bottom: 24px;
+}
+
+::ng-deep .p-fieldset {
+  background-color: #d0b8a8c0;
+  border-width: 3px;
+  border-color: #c5705d;
+}
+
+::ng-deep .p-fieldset-legend {
+  background-color: #d0b8a8c0;
+  border-width: 3px;
+  border-color: #c5705d;
+}
+
+::ng-deep .p-fieldset-content {
+}
