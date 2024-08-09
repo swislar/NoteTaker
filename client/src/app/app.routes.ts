@@ -7,6 +7,7 @@ import {
   AboutComponent,
   StatifyComponent,
   SpotifyCallbackComponent,
+  TestComponent,
 } from './pages';
 
 export const routes: Routes = [
@@ -18,4 +19,5 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'statify', component: StatifyComponent },
   { path: 'spotify-callback', component: SpotifyCallbackComponent },
+  { path: 'test', component: TestComponent },
 ];
